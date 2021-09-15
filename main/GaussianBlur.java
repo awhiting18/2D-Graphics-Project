@@ -111,11 +111,16 @@ public class GaussianBlur {
 
 					}
 				}
+<<<<<<< Updated upstream
 
 				answer.setRGB(x, y,
 						new Color(getWeightedColorValue(distributedColorRed),
 								getWeightedColorValue(distributedColorGreen),
 								getWeightedColorValue(distributedColorBlue)).getRed());
+=======
+				
+				answer.setRGB(x, y, new Color(getWeightedColorValue(distributedColorRed), getWeightedColorValue(distributedColorGreen), getWeightedColorValue(distributedColorBlue) ).getRGB());
+>>>>>>> Stashed changes
 			}
 		}
 		return answer;
