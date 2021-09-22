@@ -10,12 +10,12 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		double[][] weights = GaussianBlur.getInstance().generateWeightMatrix(150, 1.5);
+		double[][] weights = GaussianBlur.getInstance().generateWeightMatrix(20, 10);
 		GaussianBlur.getInstance().printWeightedMatrixToFile(weights);
 
 		BufferedImage answer = null;
 		try {
-			String filePath = "./giraffe.jpeg";
+			String filePath = "./giraffe.jpg";
 			BufferedImage source_image = ImageIO.read(new File(filePath));
 			answer = GaussianBlur.getInstance().createGaussianedImage(source_image, weights, 20);
 		} catch (IOException e) {
