@@ -8,6 +8,8 @@ function boxBlur(image) {
     returnBox.push(newRow);
     x++;
   }
+
+  return returnBox;
 }
 
 //Helper functions

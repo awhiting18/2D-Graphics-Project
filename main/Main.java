@@ -10,25 +10,52 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		double[][] weights = GaussianBlur.getInstance().generateWeightMatrix(20, 10);
-		GaussianBlur.getInstance().printWeightedMatrixToFile(weights);
+		int blurType = 1;
+		switch (blurType) {
+			case 0: {
+				double[][] weights = GaussianBlur.getInstance().generateWeightMatrix(20, 10);
 
-		BufferedImage answer = null;
-		try {
-			String filePath = "./giraffe.jpg";
-			BufferedImage source_image = ImageIO.read(new File(filePath));
-			answer = GaussianBlur.getInstance().createGaussianedImage(source_image, weights, 20);
-		} catch (IOException e) {
-			e.printStackTrace();
+				BufferedImage gaussianBlurredImage = null;
+				try {
+					String filePath = "./giraffe.jpg";
+					BufferedImage source_image = ImageIO.read(new File(filePath));
+					gaussianBlurredImage = GaussianBlur.getInstance().createGaussianedImage(source_image, weights, 20);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				try {
+					ImageIO.write(gaussianBlurredImage, "PNG", new File("gaussianBlur.png"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				System.out.println("Done!");
+			}
+				break;
+			case 1: {
+				// creating a boxMatrix for the box blur
+				double[][] boxMatrix = BoxBlur.getInstance().generateBoxMatrix(40);
+				BufferedImage boxBlurredImage = null;
+				try {
+					String filePath = "./giraffe.jpg";
+					BufferedImage source_image = ImageIO.read(new File(filePath));
+					boxBlurredImage = BoxBlur.getInstance().createBoxBlurredImage(source_image, boxMatrix, 40);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				try {
+					ImageIO.write(boxBlurredImage, "PNG", new File("boxBlur.png"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				System.out.println("Done!");
+
+			}
+				break;
 		}
-
-		try {
-			ImageIO.write(answer, "PNG", new File("answer.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		System.out.println("Done!");
 	}
 
 }
