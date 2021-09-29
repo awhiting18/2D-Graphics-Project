@@ -35,12 +35,12 @@ public class Main {
 				break;
 			case 1: {
 				// creating a boxMatrix for the box blur
-				double[][] boxMatrix = BoxBlur.getInstance().generateBoxMatrix(40);
+				double[][] boxMatrix = BoxBlur.getInstance().generateBoxMatrix(100);
 				BufferedImage boxBlurredImage = null;
 				try {
 					String filePath = "./giraffe.jpg";
 					BufferedImage source_image = ImageIO.read(new File(filePath));
-					boxBlurredImage = BoxBlur.getInstance().createBoxBlurredImage(source_image, boxMatrix, 40);
+					boxBlurredImage = BoxBlur.getInstance().createBoxBlurredImage(source_image, boxMatrix, 100);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
