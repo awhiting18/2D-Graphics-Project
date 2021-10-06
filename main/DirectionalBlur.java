@@ -3,20 +3,20 @@ package main;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-public class BoxBlur {
-    private BoxBlur() {
+public class DirectionalBlur {
+    private DirectionalBlur() {
     }
 
-    private static BoxBlur blur;
+    private static DirectionalBlur blur;
 
-    public static BoxBlur getInstance() {
+    public static DirectionalBlur getInstance() {
         if (blur == null) {
-            blur = new BoxBlur();
+            blur = new DirectionalBlur();
         }
         return blur;
     }
 
-    public double[][] generateBoxMatrix(int radius) {
+    public double[][] generateDirectionalMatrix(int radius) {
         double[][] weights = new double[radius][radius];
         double summation = 0;
 
@@ -24,7 +24,7 @@ public class BoxBlur {
         for (int i = 0; i < weights.length; i++) {
             for (int j = 0; j < weights[i].length; j++) {
                 // weights[i][j] = gaussianModel(i - radius / 2, j - radius / 2, variance);
-                weights[i][j] = 1;
+                weights[i][j] = i + j;
                 summation += weights[i][j];
             }
         }
@@ -39,7 +39,7 @@ public class BoxBlur {
         return weights;
     }
 
-    public BufferedImage createBoxBlurredImage(BufferedImage source_image, double weights[][], int radius) {
+    public BufferedImage createDirectionalBlurredImage(BufferedImage source_image, double weights[][], int radius) {
         System.out.print("working...");
 
         BufferedImage answer = new BufferedImage(source_image.getWidth(), source_image.getHeight(),

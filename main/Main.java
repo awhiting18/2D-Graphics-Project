@@ -10,7 +10,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		int blurType = 1;
+		int blurType = 2;
 		switch (blurType) {
 			case 0: {
 				double[][] weights = GaussianBlur.getInstance().generateWeightMatrix(20, 10);
@@ -47,6 +47,29 @@ public class Main {
 
 				try {
 					ImageIO.write(boxBlurredImage, "PNG", new File("boxBlur.png"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				System.out.println("Done!");
+
+			}
+				break;
+			case 2: {
+				// creating a boxMatrix for the box blur
+				double[][] directionalMatrix = DirectionalBlur.getInstance().generateDirectionalMatrix(20);
+				BufferedImage directionalBlurredImage = null;
+				try {
+					String filePath = "./giraffe.jpg";
+					BufferedImage source_image = ImageIO.read(new File(filePath));
+					directionalBlurredImage = DirectionalBlur.getInstance().createDirectionalBlurredImage(source_image,
+							directionalMatrix, 20);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				try {
+					ImageIO.write(directionalBlurredImage, "PNG", new File("DirectionalBlur.png"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
