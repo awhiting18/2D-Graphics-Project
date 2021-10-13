@@ -18,6 +18,9 @@ public class EdgeDetection1 {
     public static final String SCHARR_FILTER_VETICAL = "Scharr Vertical Filter";
     public static final String SCHARR_FILTER_HORIZONTAL = "Scharr Horizontal Filter";
 
+    public static final String GAUSSIAN_BLUR = "Gaussian Blur Filter";
+    public static final String BOX_BLUR = "Box Blur Filter";
+
     private static final double[][] FILTER_VERTICAL = { { 1, 0, -1 }, { 1, 0, -1 }, { 1, 0, -1 } };
     private static final double[][] FILTER_HORIZONTAL = { { 1, 1, 1 }, { 0, 0, 0 }, { -1, -1, -1 } };
 
@@ -26,6 +29,13 @@ public class EdgeDetection1 {
 
     private static final double[][] FILTER_SCHARR_V = { { 3, 0, -3 }, { 10, 0, -10 }, { 3, 0, -3 } };
     private static final double[][] FILTER_SCHARR_H = { { 3, 10, 3 }, { 0, 0, 0 }, { -3, -10, -3 } };
+
+    private static final float normValsBB = (1 / 9.0f);
+    private static final double[][] FILTER_BOX = { { normValsBB, normValsBB, normValsBB },
+            { normValsBB, normValsBB, normValsBB }, { normValsBB, normValsBB, normValsBB } };
+    private static final double[][] FILTER_GAUSSIAN = { { 1 / 256, 4 / 256, 6 / 256, 4 / 256, 1 / 256 },
+            { 4 / 256, 16 / 256, 24 / 256, 16 / 256, 4 / 256 }, { 6 / 256, 24 / 256, 36 / 256, 24 / 256, 6 / 256 },
+            { 4 / 256, 16 / 256, 24 / 256, 16 / 256, 4 / 256 }, { 1 / 256, 4 / 256, 6 / 256, 4 / 256, 1 / 256 } };
 
     private final HashMap<String, double[][]> filterMap;
 
@@ -82,14 +92,15 @@ public class EdgeDetection1 {
                 writeBackImage.setRGB(j, i, color.getRGB());
             }
         }
-        File outputFile = new File("edgesTmp.png");
+        File outputFile = new File("kernelPractice.png");
         ImageIO.write(writeBackImage, "png", outputFile);
         return outputFile;
     }
 
     private int fixOutOfRangeRGBValues(double value) {
         if (value < 0.0) {
-            value = -value;
+            // value = -value;
+            value = 0;
         }
         if (value > 255) {
             return 255;
@@ -109,6 +120,9 @@ public class EdgeDetection1 {
 
         filterMap.put(SCHARR_FILTER_VETICAL, FILTER_SCHARR_V);
         filterMap.put(SCHARR_FILTER_HORIZONTAL, FILTER_SCHARR_H);
+
+        filterMap.put(GAUSSIAN_BLUR, FILTER_GAUSSIAN);
+        filterMap.put(BOX_BLUR, FILTER_BOX);
         return filterMap;
     }
 

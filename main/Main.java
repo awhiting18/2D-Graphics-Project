@@ -14,7 +14,7 @@ public class Main {
 
 		EdgeDetection1 k = new EdgeDetection1();
 		BufferedImage bI = ImageIO.read(new File("giraffe.jpg"));
-		k.detectEdges(bI, "Horizontal Filter");
+		k.detectEdges(bI, "Box Blur Filter");
 
 		// new Processor("giraffe.jpg").histogram().save("histogram.png");
 	}

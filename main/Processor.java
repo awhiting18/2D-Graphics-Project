@@ -186,7 +186,7 @@ public class Processor {
     for (var i = 0; i < counts.length; i++) {
       int percent = (int) (counts[i] / (double) maxValue * height);
       g.setColor(Color.WHITE);
-      g.fillRect(i, height - percent, i + 1, percent);
+      g.fillRect(i, height - percent, 1, percent);
     }
 
     this.image = toReturn;
