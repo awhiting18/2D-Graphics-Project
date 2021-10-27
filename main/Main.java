@@ -13,8 +13,8 @@ public class Main {
 		// new Processor("giraffe.jpg").gaussianBlur(20, 4).save("done.png");
 
 		EdgeDetection1 k = new EdgeDetection1();
-		BufferedImage bI = ImageIO.read(new File("giraffe.jpg"));
-		k.detectEdges(bI, "Box Blur Filter");
+		BufferedImage bI = ImageIO.read(new File("paper.jpeg"));
+		k.detectEdges(bI, "Emboss Filter");
 
 		// new Processor("giraffe.jpg").histogram().save("histogram.png");
 	}

@@ -21,6 +21,12 @@ public class EdgeDetection1 {
     public static final String GAUSSIAN_BLUR = "Gaussian Blur Filter";
     public static final String BOX_BLUR = "Box Blur Filter";
 
+    public static final String SHARPEN_FILTER = "Sharpen Filter";
+
+    public static final String OUTLINE_FILTER = "Outline Filter";
+
+    public static final String EMBOSS_FILTER = "Emboss Filter";
+
     private static final double[][] FILTER_VERTICAL = { { 1, 0, -1 }, { 1, 0, -1 }, { 1, 0, -1 } };
     private static final double[][] FILTER_HORIZONTAL = { { 1, 1, 1 }, { 0, 0, 0 }, { -1, -1, -1 } };
 
@@ -30,12 +36,20 @@ public class EdgeDetection1 {
     private static final double[][] FILTER_SCHARR_V = { { 3, 0, -3 }, { 10, 0, -10 }, { 3, 0, -3 } };
     private static final double[][] FILTER_SCHARR_H = { { 3, 10, 3 }, { 0, 0, 0 }, { -3, -10, -3 } };
 
+    private static final double[][] FILTER_SHARPEN = { { 0, -1, 0 }, { -1, 5, -1 }, { 0, -1, 0 } };
+
+    private static final double[][] FILTER_OUTLINE = { { -1, -1, -1 }, { -1, 8, -1 }, { -1, -1, -1 } };
+
+    private static final double[][] FILTER_EMBOSS = { { -2, -1, 0 }, { -1, 1, 1 }, { 0, 1, 2 } };
+
     private static final float normValsBB = (1 / 9.0f);
     private static final double[][] FILTER_BOX = { { normValsBB, normValsBB, normValsBB },
             { normValsBB, normValsBB, normValsBB }, { normValsBB, normValsBB, normValsBB } };
-    private static final double[][] FILTER_GAUSSIAN = { { 1 / 256, 4 / 256, 6 / 256, 4 / 256, 1 / 256 },
-            { 4 / 256, 16 / 256, 24 / 256, 16 / 256, 4 / 256 }, { 6 / 256, 24 / 256, 36 / 256, 24 / 256, 6 / 256 },
-            { 4 / 256, 16 / 256, 24 / 256, 16 / 256, 4 / 256 }, { 1 / 256, 4 / 256, 6 / 256, 4 / 256, 1 / 256 } };
+    private static final double[][] FILTER_GAUSSIAN = { { 1 / 256.0f, 4 / 256.0f, 6 / 256.0f, 4 / 256.0f, 1 / 256.0f },
+            { 4 / 256.0f, 16 / 256.0f, 24 / 256.0f, 16 / 256.0f, 4 / 256.0f },
+            { 6 / 256.0f, 24 / 256.0f, 36 / 256.0f, 24 / 256.0f, 6 / 256.0f },
+            { 4 / 256.0f, 16 / 256.0f, 24 / 256.0f, 16 / 256.0f, 4 / 256.0f },
+            { 1 / 256.0f, 4 / 256.0f, 6 / 256.0f, 4 / 256.0f, 1 / 256.0f } };
 
     private final HashMap<String, double[][]> filterMap;
 
@@ -47,7 +61,7 @@ public class EdgeDetection1 {
     public File detectEdges(BufferedImage bufferedImage, String selectedFilter) throws IOException {
         double[][][] image = transformImageToArray(bufferedImage);
         double[][] filter = filterMap.get(selectedFilter);
-        double[][] convolvedPixels = applyConvolution(bufferedImage.getWidth(), bufferedImage.getHeight(), image,
+        double[][][] convolvedPixels = applyConvolution(bufferedImage.getWidth(), bufferedImage.getHeight(), image,
                 filter);
         return createImageFromConvolutionMatrix(bufferedImage, convolvedPixels);
     }
@@ -68,27 +82,31 @@ public class EdgeDetection1 {
         return image;
     }
 
-    private double[][] applyConvolution(int width, int height, double[][][] image, double[][] filter) {
+    private double[][][] applyConvolution(int width, int height, double[][][] image, double[][] filter) {
         Convolution convolution = new Convolution();
         double[][] redConv = convolution.convolutionType2(image[0], height, width, filter, 3, 3, 1);
         double[][] greenConv = convolution.convolutionType2(image[1], height, width, filter, 3, 3, 1);
         double[][] blueConv = convolution.convolutionType2(image[2], height, width, filter, 3, 3, 1);
-        double[][] finalConv = new double[redConv.length][redConv[0].length];
-        for (int i = 0; i < redConv.length; i++) {
-            for (int j = 0; j < redConv[i].length; j++) {
-                finalConv[i][j] = redConv[i][j] + greenConv[i][j] + blueConv[i][j];
-            }
-        }
+        double[][][] finalConv = new double[3][redConv.length][redConv[0].length];
+        /*
+         * for (int i = 0; i < redConv.length; i++) { for (int j = 0; j <
+         * redConv[i].length; j++) { finalConv[i][j] = redConv[i][j] + greenConv[i][j] +
+         * blueConv[i][j]; } }
+         */
+        finalConv[0] = redConv;
+        finalConv[1] = greenConv;
+        finalConv[2] = blueConv;
         return finalConv;
     }
 
-    private File createImageFromConvolutionMatrix(BufferedImage originalImage, double[][] imageRGB) throws IOException {
+    private File createImageFromConvolutionMatrix(BufferedImage originalImage, double[][][] imageRGB)
+            throws IOException {
         BufferedImage writeBackImage = new BufferedImage(originalImage.getWidth(), originalImage.getHeight(),
                 BufferedImage.TYPE_INT_RGB);
-        for (int i = 0; i < imageRGB.length; i++) {
-            for (int j = 0; j < imageRGB[i].length; j++) {
-                Color color = new Color(fixOutOfRangeRGBValues(imageRGB[i][j]), fixOutOfRangeRGBValues(imageRGB[i][j]),
-                        fixOutOfRangeRGBValues(imageRGB[i][j]));
+        for (int i = 0; i < imageRGB[0].length; i++) {
+            for (int j = 0; j < imageRGB[0][i].length; j++) {
+                Color color = new Color(fixOutOfRangeRGBValues(imageRGB[0][i][j]),
+                        fixOutOfRangeRGBValues(imageRGB[1][i][j]), fixOutOfRangeRGBValues(imageRGB[2][i][j]));
                 writeBackImage.setRGB(j, i, color.getRGB());
             }
         }
@@ -123,6 +141,13 @@ public class EdgeDetection1 {
 
         filterMap.put(GAUSSIAN_BLUR, FILTER_GAUSSIAN);
         filterMap.put(BOX_BLUR, FILTER_BOX);
+
+        filterMap.put(SHARPEN_FILTER, FILTER_SHARPEN);
+
+        filterMap.put(OUTLINE_FILTER, FILTER_OUTLINE);
+
+        filterMap.put(EMBOSS_FILTER, FILTER_EMBOSS);
+
         return filterMap;
     }
 
