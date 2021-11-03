@@ -9,13 +9,27 @@ import javax.imageio.ImageIO;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		// new Processor("giraffe.jpg").save("done.png");
-		// new Processor("giraffe.jpg").gaussianBlur(20, 4).save("done.png");
+		// Processor test = new Processor("giraffe.jpg");//
+		// .applyConvolutionKernelFilter("Outline
+		// Filter").save("done.png");
 
-		EdgeDetection1 k = new EdgeDetection1();
-		BufferedImage bI = ImageIO.read(new File("paper.jpeg"));
-		k.detectEdges(bI, "Emboss Filter");
+		// for (int x = 0; x < 50; x++) {
+		// test.applyConvolutionKernelFilter("Box Blur Filter");
+		// }
 
+		// test.save("DoneBox.png");
+		// new Processor("brickWall.jpeg").applyConvolutionKernelFilter("Outline
+		// Filter").save("DoneOutline.png");
+		float test = 1 / 273.0f + 4 / 273.0f + 7 / 273.0f + 4 / 273.0f + 1 / 273.0f + 4 / 273.0f + 16 / 273.0f
+				+ 26 / 273.0f + 16 / 273.0f + 4 / 273.0f + 7 / 273.0f + 26 / 273.0f + 41 / 273.0f + 26 / 273.0f
+				+ 7 / 273.0f + 4 / 273.0f + 16 / 273.0f + 26 / 273.0f + 16 / 273.0f + 4 / 273.0f + 1 / 273.0f
+				+ 4 / 273.0f + 7 / 273.0f + 4 / 273.0f + 1 / 273.0f;
+
+		System.out.print(test);
+		// new Processor("giraffe.jpg").applyConvolutionKernelFilter("Gaussian Blur
+		// Filter").save("DoneGaussian.png");
+		// new Processor("brickWall.jpeg").applyConvolutionKernelFilter("Emboss
+		// Filter").save("DoneEmboss.png");
 		// new Processor("giraffe.jpg").histogram().save("histogram.png");
 	}
 }

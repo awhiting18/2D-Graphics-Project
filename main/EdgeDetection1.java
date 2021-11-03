@@ -45,11 +45,11 @@ public class EdgeDetection1 {
     private static final float normValsBB = (1 / 9.0f);
     private static final double[][] FILTER_BOX = { { normValsBB, normValsBB, normValsBB },
             { normValsBB, normValsBB, normValsBB }, { normValsBB, normValsBB, normValsBB } };
-    private static final double[][] FILTER_GAUSSIAN = { { 1 / 256.0f, 4 / 256.0f, 6 / 256.0f, 4 / 256.0f, 1 / 256.0f },
-            { 4 / 256.0f, 16 / 256.0f, 24 / 256.0f, 16 / 256.0f, 4 / 256.0f },
-            { 6 / 256.0f, 24 / 256.0f, 36 / 256.0f, 24 / 256.0f, 6 / 256.0f },
-            { 4 / 256.0f, 16 / 256.0f, 24 / 256.0f, 16 / 256.0f, 4 / 256.0f },
-            { 1 / 256.0f, 4 / 256.0f, 6 / 256.0f, 4 / 256.0f, 1 / 256.0f } };
+    private static final double[][] FILTER_GAUSSIAN = { { 1 / 273.0f, 4 / 273.0f, 7 / 273.0f, 4 / 273.0f, 1 / 273.0f },
+            { 4 / 273.0f, 16 / 273.0f, 26 / 273.0f, 16 / 273.0f, 4 / 273.0f },
+            { 7 / 273.0f, 26 / 273.0f, 41 / 273.0f, 26 / 273.0f, 7 / 273.0f },
+            { 4 / 273.0f, 16 / 273.0f, 26 / 273.0f, 16 / 273.0f, 4 / 273.0f },
+            { 1 / 273.0f, 4 / 273.0f, 7 / 273.0f, 4 / 273.0f, 1 / 273.0f } };
 
     private final HashMap<String, double[][]> filterMap;
 
@@ -58,7 +58,7 @@ public class EdgeDetection1 {
 
     }
 
-    public File detectEdges(BufferedImage bufferedImage, String selectedFilter) throws IOException {
+    public BufferedImage applyFilter(BufferedImage bufferedImage, String selectedFilter) throws IOException {
         double[][][] image = transformImageToArray(bufferedImage);
         double[][] filter = filterMap.get(selectedFilter);
         double[][][] convolvedPixels = applyConvolution(bufferedImage.getWidth(), bufferedImage.getHeight(), image,
@@ -99,7 +99,7 @@ public class EdgeDetection1 {
         return finalConv;
     }
 
-    private File createImageFromConvolutionMatrix(BufferedImage originalImage, double[][][] imageRGB)
+    private BufferedImage createImageFromConvolutionMatrix(BufferedImage originalImage, double[][][] imageRGB)
             throws IOException {
         BufferedImage writeBackImage = new BufferedImage(originalImage.getWidth(), originalImage.getHeight(),
                 BufferedImage.TYPE_INT_RGB);
@@ -110,9 +110,9 @@ public class EdgeDetection1 {
                 writeBackImage.setRGB(j, i, color.getRGB());
             }
         }
-        File outputFile = new File("kernelPractice.png");
-        ImageIO.write(writeBackImage, "png", outputFile);
-        return outputFile;
+        // File outputFile = new File("kernelPractice.png");
+        // ImageIO.write(writeBackImage, "png", outputFile);
+        return writeBackImage;
     }
 
     private int fixOutOfRangeRGBValues(double value) {

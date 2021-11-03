@@ -362,4 +362,16 @@ public class Processor {
 
     return weights;
   }
+
+  public Processor applyConvolutionKernelFilter(String filter) {
+    EdgeDetection1 k = new EdgeDetection1();
+    BufferedImage input_image = this.image;
+    try {
+      this.image = k.applyFilter(input_image, filter);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return this;
+
+  }
 }
