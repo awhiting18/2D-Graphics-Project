@@ -1,3 +1,5 @@
+package main;
+
 import java.awt.Color;
 
 public class ImageLayer {
@@ -8,23 +10,21 @@ public class ImageLayer {
   float sy = 1;
   float r = 0;
 
-  public ImageLayer(IPImage image){
+  public ImageLayer(IPImage image) {
     this.image = image;
   }
 
-  public IPImage image(){
+  public IPImage image() {
     return this.image;
   }
 
-  public ImageLayer clone(){
+  public ImageLayer clone() {
     ImageLayer toReturn = new ImageLayer(this.image.clone());
     return toReturn;
   }
 
   public Color getPixel(int i, int j) {
-    return image.getPixel(i,j);
+    return image.getPixel(i, j);
   }
-
-  
 
 }

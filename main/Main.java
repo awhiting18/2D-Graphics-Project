@@ -20,16 +20,13 @@ public class Main {
 		// test.save("DoneBox.png");
 		// new Processor("brickWall.jpeg").applyConvolutionKernelFilter("Outline
 		// Filter").save("DoneOutline.png");
-		float test = 1 / 273.0f + 4 / 273.0f + 7 / 273.0f + 4 / 273.0f + 1 / 273.0f + 4 / 273.0f + 16 / 273.0f
-				+ 26 / 273.0f + 16 / 273.0f + 4 / 273.0f + 7 / 273.0f + 26 / 273.0f + 41 / 273.0f + 26 / 273.0f
-				+ 7 / 273.0f + 4 / 273.0f + 16 / 273.0f + 26 / 273.0f + 16 / 273.0f + 4 / 273.0f + 1 / 273.0f
-				+ 4 / 273.0f + 7 / 273.0f + 4 / 273.0f + 1 / 273.0f;
 
-		System.out.print(test);
 		// new Processor("giraffe.jpg").applyConvolutionKernelFilter("Gaussian Blur
 		// Filter").save("DoneGaussian.png");
 		// new Processor("brickWall.jpeg").applyConvolutionKernelFilter("Emboss
 		// Filter").save("DoneEmboss.png");
 		// new Processor("giraffe.jpg").histogram().save("histogram.png");
+		new IPImage("./in/horse.jpg").RBGscale(5).save("./out/blue.png");
+
 	}
 }

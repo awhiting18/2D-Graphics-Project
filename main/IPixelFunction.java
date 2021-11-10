@@ -1,4 +1,6 @@
-public interface  IPixelFunction {
+package main;
+
+public interface IPixelFunction {
   float run(float input);
-  
+
 }

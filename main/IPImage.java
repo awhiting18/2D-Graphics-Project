@@ -330,6 +330,64 @@ public class IPImage {
 
   }
 
+  public IPImage RBGscale(int colorChoice) {
+    for (var h = 0; h < this.image.getHeight(); h++) {
+      for (var w = 0; w < this.image.getWidth(); w++) {
+
+        var pixelInt = this.image.getRGB(w, h);
+        var pixelColor = new Color(pixelInt);
+        var middleX = this.image.getWidth() / 2;
+        var middleY = this.image.getHeight() / 2;
+        int value = 0;
+
+        if ((pixelColor.getRed() + pixelColor.getBlue() + pixelColor.getGreen()) < 25) {
+          value = 0;
+        } else if ((pixelColor.getRed() + pixelColor.getBlue() + pixelColor.getGreen()) < 50) {
+          value = 25;
+        } else if ((pixelColor.getRed() + pixelColor.getBlue() + pixelColor.getGreen()) < 75) {
+          value = 50;
+        } else if ((pixelColor.getRed() + pixelColor.getBlue() + pixelColor.getGreen()) < 100) {
+          value = 75;
+        } else if ((pixelColor.getRed() + pixelColor.getBlue() + pixelColor.getGreen()) < 125) {
+          value = 100;
+        } else if ((pixelColor.getRed() + pixelColor.getBlue() + pixelColor.getGreen()) < 150) {
+          value = 125;
+        } else if ((pixelColor.getRed() + pixelColor.getBlue() + pixelColor.getGreen()) < 175) {
+          value = 150;
+        } else if ((pixelColor.getRed() + pixelColor.getBlue() + pixelColor.getGreen()) < 200) {
+          value = 175;
+        } else if ((pixelColor.getRed() + pixelColor.getBlue() + pixelColor.getGreen()) < 225) {
+          value = 200;
+        } else if ((pixelColor.getRed() + pixelColor.getBlue() + pixelColor.getGreen()) < 250) {
+          value = 225;
+        } else if ((pixelColor.getRed() + pixelColor.getBlue() + pixelColor.getGreen()) < 255) {
+          value = 255;
+        }
+
+        if (w < middleX && h < middleY) {
+          this.image.setRGB(w, h, new Color(value, 0, 0).getRGB());
+        } else if (w >= middleX && h < middleY) {
+          this.image.setRGB(w, h, new Color(0, value, 0).getRGB());
+        } else if (w >= middleX && h >= middleY) {
+          this.image.setRGB(w, h, new Color(0, 0, value).getRGB());
+        } else if (w < middleX && h >= middleY) {
+          this.image.setRGB(w, h, new Color(value, value, value).getRGB());
+        }
+
+        /*
+         * switch (colorChoice) { case 1: this.image.setRGB(w, h, new Color(value, 0,
+         * 0).getRGB()); break; case 2: this.image.setRGB(w, h, new Color(0, value,
+         * 0).getRGB()); break; case 3: this.image.setRGB(w, h, new Color(0, 0,
+         * value).getRGB()); break; default: this.image.setRGB(w, h, new Color(value,
+         * value, value).getRGB()); }
+         */
+
+      }
+    }
+    return this;
+
+  }
+
   public IPImage clone() {
 
     // See https://stackoverflow.com/a/19327237/10047920
