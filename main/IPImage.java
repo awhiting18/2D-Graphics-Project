@@ -388,6 +388,42 @@ public class IPImage {
 
   }
 
+  public IPImage mixImages(String fileName) throws Exception {
+    try {
+
+      BufferedImage bufferedImage = ImageIO.read(new File(fileName));
+      if (this.image.getWidth() != bufferedImage.getWidth() || this.image.getHeight() != bufferedImage.getHeight()) {
+        throw new Exception("The images need to be the same width and height");
+      } else {
+        var alternate = false;
+        for (var h = 0; h < this.image.getHeight(); h++) {
+          for (var w = 0; w < this.image.getWidth(); w++) {
+
+            var pixelIntOriginal = this.image.getRGB(w, h);
+            var pixelColorOriginal = new Color(pixelIntOriginal);
+            var pixelIntNewImage = bufferedImage.getRGB(w, h);
+            var pixelColorNewImage = new Color(pixelIntNewImage);
+
+            if (w % 100 == 0 && h % 20 == 0) {
+              alternate = !alternate;
+            }
+            if (alternate) {
+              this.image.setRGB(w, h, pixelColorNewImage.getRGB());
+            } else {
+              this.image.setRGB(w, h, pixelColorOriginal.getRGB());
+            }
+
+          }
+        }
+      }
+
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    }
+
+    return this;
+  }
+
   public IPImage clone() {
 
     // See https://stackoverflow.com/a/19327237/10047920
