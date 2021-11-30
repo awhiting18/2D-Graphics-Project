@@ -424,6 +424,68 @@ public class IPImage {
     return this;
   }
 
+  public IPImage focusOnColor(int decision) throws Exception {
+
+    for (var h = 0; h < this.image.getHeight(); h++) {
+      for (var w = 0; w < this.image.getWidth(); w++) {
+
+        var pixelIntOriginal = this.image.getRGB(w, h);
+        var pixelColor = new Color(pixelIntOriginal);
+
+        int redInPixel = pixelColor.getRed();
+        int blueInPixel = pixelColor.getBlue();
+        int greenInPixel = pixelColor.getGreen();
+
+        switch (decision) {
+          case 1: {
+            if ((redInPixel - blueInPixel > 25) && (redInPixel - greenInPixel > 25)) {
+              this.image.setRGB(w, h, new Color(redInPixel, greenInPixel, blueInPixel).getRGB());
+            } else {
+              float[] hsv = new float[3];
+              myConversion(pixelColor.getRed(), pixelColor.getGreen(), pixelColor.getBlue(), hsv);
+
+              int value = (int) Math.floor(Math.min(255, hsv[2] * 255.0f));
+
+              this.image.setRGB(w, h, new Color(value, value, value).getRGB());
+            }
+          }
+            break;
+          case 2: {
+            if ((blueInPixel - redInPixel > 25) && (blueInPixel - greenInPixel > 25)) {
+              this.image.setRGB(w, h, new Color(redInPixel, greenInPixel, blueInPixel).getRGB());
+            } else {
+              float[] hsv = new float[3];
+              myConversion(pixelColor.getRed(), pixelColor.getGreen(), pixelColor.getBlue(), hsv);
+
+              int value = (int) Math.floor(Math.min(255, hsv[2] * 255.0f));
+
+              this.image.setRGB(w, h, new Color(value, value, value).getRGB());
+            }
+          }
+
+            break;
+          case 3: {
+            if ((greenInPixel - redInPixel > 1) && (greenInPixel - blueInPixel > 1)) {
+              this.image.setRGB(w, h, new Color(redInPixel, greenInPixel, blueInPixel).getRGB());
+            } else {
+              float[] hsv = new float[3];
+              myConversion(pixelColor.getRed(), pixelColor.getGreen(), pixelColor.getBlue(), hsv);
+
+              int value = (int) Math.floor(Math.min(255, hsv[2] * 255.0f));
+
+              this.image.setRGB(w, h, new Color(value, value, value).getRGB());
+            }
+
+            break;
+          }
+        }
+
+      }
+    }
+
+    return this;
+  }
+
   public IPImage clone() {
 
     // See https://stackoverflow.com/a/19327237/10047920
