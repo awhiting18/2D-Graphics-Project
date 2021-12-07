@@ -28,7 +28,9 @@ public class Main {
 		// new Processor("giraffe.jpg").histogram().save("histogram.png");
 		// new IPImage("./in/horse.jpg").RBGscale(5).save("./out/blue.png");
 		try {
-			new IPImage("./in/blueCar.jpeg").focusOnColor(2).save("./out/selectedColorBlue.png");
+			// new
+			// IPImage("./in/blueCar.jpeg").focusOnColor(2).save("./out/selectedColorBlue.png");
+			new IPImage("./in/sunset1.jpg").mixImages("./in/sunset2.jpg").save("./out/sunsetMixed.png");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

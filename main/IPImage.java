@@ -397,6 +397,9 @@ public class IPImage {
       } else {
         var alternate = false;
         for (var h = 0; h < this.image.getHeight(); h++) {
+          if (h % 20 == 0) {
+            alternate = !alternate;
+          }
           for (var w = 0; w < this.image.getWidth(); w++) {
 
             var pixelIntOriginal = this.image.getRGB(w, h);
@@ -404,9 +407,6 @@ public class IPImage {
             var pixelIntNewImage = bufferedImage.getRGB(w, h);
             var pixelColorNewImage = new Color(pixelIntNewImage);
 
-            if (w % 100 == 0 && h % 20 == 0) {
-              alternate = !alternate;
-            }
             if (alternate) {
               this.image.setRGB(w, h, pixelColorNewImage.getRGB());
             } else {
